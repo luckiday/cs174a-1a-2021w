@@ -94,6 +94,7 @@ class Base_Scene extends Scene {
         };
         // The white material and basic shader are used for drawing the outline.
         this.white = new Material(new defs.Basic_Shader());
+        this.demo_color = hex_color("#1a9ffa");
     }
 
     display(context, program_state) {
@@ -122,8 +123,10 @@ export class Assignment1 extends Base_Scene {
      * This gives you a very small code sandbox for editing a simple scene, and for
      * experimenting with matrix transformations.
      */
+
     set_colors() {
         // TODO:  Create a class member variable to store your cube's colors.
+        this.demo_color = hex_color("#b70c0c");
     }
 
     make_control_panel() {
@@ -132,6 +135,7 @@ export class Assignment1 extends Base_Scene {
         // Add a button for controlling the scene.
         this.key_triggered_button("Outline", ["o"], () => {
             // TODO:  Requirement 5b:  Set a flag here that will toggle your outline on and off
+            this.demo_color = hex_color("#b70c0c");
         });
         this.key_triggered_button("Sit still", ["m"], () => {
             // TODO:  Requirement 3d:  Set a flag here that will toggle your swaying motion on and off.
@@ -149,16 +153,20 @@ export class Assignment1 extends Base_Scene {
         super.display(context, program_state);
         const blue = hex_color("#1a9ffa");
         let model_transform = Mat4.identity();
-
-
         // Example for drawing a cube, you can remove this line if needed
         // this.shapes.cube.draw(context, program_state, model_transform, this.materials.plastic.override({color:blue}));
         // TODO:  Draw your entire scene here.  Use this.draw_box(context, program_state, model_transform,) to call your helper.
         // this.shapes.outline.draw(context, program_state, model_transform, this.white, "LINES");
-        // this.shapes.sq.draw(context, program_state, model_transform, this.materials.plastic.override({color: blue}));
-        this.shapes.triangle_strip.draw(context,program_state, model_transform, this.materials.plastic.override({color:blue}), "TRIANGLE_STRIP");
-        model_transform = model_transform.times(Mat4.translation(0,2,0));
-        model_transform = model_transform.times(Mat4.rotation(Math.PI/10, 0,0,1));
+        // model_transform = model_transform.times(Mat4.translation(1, 1, 0));
+        model_transform = model_transform.times(Mat4.rotation(-Math.PI/4, 0, 0, 1));
+        // model_transform = model_transform.times(Mat4.translation(-1, 1, 0));
+        // this.shapes.outline.draw(context, program_state, model_transform, this.white, "LINES");
+
+
+        // this.shapes.sq.draw(context, program_state, model_transform, this.materials.plastic.override({color: this.demo_color}));
+        // this.shapes.triangle_strip.draw(context,program_state, model_transform, this.materials.plastic.override({color:blue}), "TRIANGLE_STRIP");
+        // model_transform = model_transform.times(Mat4.translation(0,2,0));
+        // model_transform = model_transform.times(Mat4.rotation(Math.PI/10, 0,0,1));
         this.shapes.triangle_strip.draw(context,program_state, model_transform, this.materials.plastic.override({color:blue}), "TRIANGLE_STRIP");
     }
 }

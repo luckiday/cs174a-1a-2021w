@@ -310,8 +310,8 @@ const Vector4 = tiny.Vector4 =
         }
 
         // In-fix operations: Use these for more readable math expressions.
-        equals() {
-            return this[0] == b[0] && this[1] == b[1] && this[2] == b[2] && this[3] == b[3]
+        equals(b) {
+            return this[0] == b[0] && this[1] == b[1] && this[2] == b[2] && this[3] == b[3];
         }
 
         plus(b) {
