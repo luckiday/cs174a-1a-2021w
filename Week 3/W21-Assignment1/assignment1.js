@@ -61,10 +61,23 @@ class Cube_Single_Strip extends Shape {
         super("position", "normal");
         // TODO (Extra credit part I)
         this.arrays.position = Vector3.cast(
-            [-1, -1, 0], [-1, 1, 0], [1, -1, 0],  [1, 1, 0],
+            [-1, 1, 1],[1, 1, 1],[-1, -1, 1], [1, -1, 1],
         );
         this.arrays.normal = Vector3.cast(
-            [-1, -1, 0], [-1, 1, 0], [1, -1, 0],  [1, 1, 0],
+            [-1, 1, 1],[1, 1, 1],  [-1, -1, 1],[1, -1, 1],
+        )
+    }
+}
+
+class Cube_Single_Strip_2 extends Shape {
+    constructor() {
+        super("position", "normal");
+        // TODO (Extra credit part I)
+        this.arrays.position = Vector3.cast(
+            [-1, 1, 1], [1, -1, 1], [1, 1, 1],
+        );
+        this.arrays.normal = Vector3.cast(
+            [-1, 1, 1], [1, -1, 1], [1, 1, 1],
         )
     }
 }
@@ -85,6 +98,7 @@ class Base_Scene extends Scene {
             'sq': new Square(),
             'outline': new Cube_Outline(),
             'triangle_strip': new Cube_Single_Strip(),
+            'triangle_strip_2': new Cube_Single_Strip_2(),
         };
 
         // *** Materials
@@ -151,14 +165,14 @@ export class Assignment1 extends Base_Scene {
 
     display(context, program_state) {
         super.display(context, program_state);
-        const blue = hex_color("#1a9ffa");
+        const blue = hex_color("#2079b7");
         let model_transform = Mat4.identity();
         // Example for drawing a cube, you can remove this line if needed
         // this.shapes.cube.draw(context, program_state, model_transform, this.materials.plastic.override({color:blue}));
         // TODO:  Draw your entire scene here.  Use this.draw_box(context, program_state, model_transform,) to call your helper.
         // this.shapes.outline.draw(context, program_state, model_transform, this.white, "LINES");
-        // model_transform = model_transform.times(Mat4.translation(1, 1, 0));
-        model_transform = model_transform.times(Mat4.rotation(-Math.PI/4, 0, 0, 1));
+        model_transform = model_transform.times(Mat4.translation(1, 1, 0));
+        // model_transform = model_transform.times(Mat4.rotation(-Math.PI/4, 0, 0, 1));
         // model_transform = model_transform.times(Mat4.translation(-1, 1, 0));
         // this.shapes.outline.draw(context, program_state, model_transform, this.white, "LINES");
 
@@ -167,6 +181,8 @@ export class Assignment1 extends Base_Scene {
         // this.shapes.triangle_strip.draw(context,program_state, model_transform, this.materials.plastic.override({color:blue}), "TRIANGLE_STRIP");
         // model_transform = model_transform.times(Mat4.translation(0,2,0));
         // model_transform = model_transform.times(Mat4.rotation(Math.PI/10, 0,0,1));
-        this.shapes.triangle_strip.draw(context,program_state, model_transform, this.materials.plastic.override({color:blue}), "TRIANGLE_STRIP");
+        this.shapes.triangle_strip.draw(context, program_state, model_transform, this.materials.plastic.override({color: blue}), "TRIANGLE_STRIP");
+        // model_transform = model_transform.times(Mat4.translation(0, 3, 0));
+        // this.shapes.triangle_strip_2.draw(context, program_state, model_transform, this.materials.plastic.override({color: blue}), "TRIANGLE_STRIP");
     }
 }
