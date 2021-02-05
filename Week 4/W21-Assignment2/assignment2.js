@@ -23,7 +23,17 @@ export class Assignment2 extends Scene {
             box_2: new Cube(),
             axis: new Axis_Arrows()
         }
-        console.log(this.shapes.box_1.arrays.texture_coord)
+        // this.shapes.box_1.arrays.texture_coord = this.shapes.box_1.arrays.texture_coord.forEach(v => v * 2)
+        // for (let i = 0; i < this.shapes.box_1.arrays.texture_coord.length; i++) {
+        //     this.shapes.box_1.arrays.texture_coord[i][0]  *= 2;
+        //     this.shapes.box_1.arrays.texture_coord[i][1]  *= 2;
+        // }
+        // for (let i=0;i<this.shapes.box_2.arrays.texture_coord.length;i++){
+        //     this.shapes.box_2.arrays.texture_coord[i][0] *= 2;
+        //     this.shapes.box_2.arrays.texture_coord[i][1] *= 2;
+        // }
+        // console.log(this.shapes.box_2.arrays.texture_coord)
+
 
 
         // TODO:  Create the materials required to texture both cubes with the correct images and settings.
@@ -34,9 +44,14 @@ export class Assignment2 extends Scene {
                 color: hex_color("#ffffff"),
             }),
             texture: new Material(new Textured_Phong(), {
-                color: hex_color("#ffffff"),
+                color: hex_color("#000000"),
                 ambient: .5, diffusivity: 0.1, specularity: 0.1,
                 texture: new Texture("assets/stars.png")
+            }),
+            texture_2: new Material(new Texture_Scroll_X(), {
+                color: hex_color("#000000"),
+                ambient: .5, diffusivity: 0.1, specularity: 0.1,
+                texture: new Texture("assets/stars.png",)
             }),
         }
 
@@ -64,7 +79,8 @@ export class Assignment2 extends Scene {
         let model_transform = Mat4.identity();
 
         // TODO:  Draw the required boxes. Also update their stored matrices.
-        this.shapes.axis.draw(context, program_state, model_transform, this.materials.phong.override({color: hex_color("#ffff00")}));
+        // this.shapes.axis.draw(context, program_state, model_transform, this.materials.phong.override({color: hex_color("#ffff00")}));
+        this.shapes.box_2.draw(context, program_state, model_transform, this.materials.texture_2);
     }
 }
 
@@ -79,7 +95,12 @@ class Texture_Scroll_X extends Textured_Phong {
             
             void main(){
                 // Sample the texture image in the correct place:
-                vec4 tex_color = texture2D( texture, f_tex_coord);
+                
+                // f_tex_coord.x = f_tex_coord.x + 0.2;
+                vec2 f_tex_new = f_tex_coord;
+                f_tex_new.x = f_tex_new.x - animation_time;
+                vec4 tex_color = texture2D( texture, f_tex_new);
+            
                 if( tex_color.w < .01 ) discard;
                                                                          // Compute an initial (ambient) color:
                 gl_FragColor = vec4( ( tex_color.xyz + shape_color.xyz ) * ambient, shape_color.w * tex_color.w ); 
