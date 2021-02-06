@@ -23,15 +23,10 @@ export class Assignment2 extends Scene {
             box_2: new Cube(),
             axis: new Axis_Arrows()
         }
-        // this.shapes.box_1.arrays.texture_coord = this.shapes.box_1.arrays.texture_coord.forEach(v => v * 2)
-        // for (let i = 0; i < this.shapes.box_1.arrays.texture_coord.length; i++) {
-        //     this.shapes.box_1.arrays.texture_coord[i][0]  *= 2;
-        //     this.shapes.box_1.arrays.texture_coord[i][1]  *= 2;
-        // }
-        // for (let i=0;i<this.shapes.box_2.arrays.texture_coord.length;i++){
-        //     this.shapes.box_2.arrays.texture_coord[i][0] *= 2;
-        //     this.shapes.box_2.arrays.texture_coord[i][1] *= 2;
-        // }
+        for (let i=0;i<this.shapes.box_2.arrays.texture_coord.length;i++){
+            this.shapes.box_2.arrays.texture_coord[i][0] *= 2;
+            this.shapes.box_2.arrays.texture_coord[i][1] *= 2;
+        }
         // console.log(this.shapes.box_2.arrays.texture_coord)
 
 
@@ -48,7 +43,7 @@ export class Assignment2 extends Scene {
                 ambient: .5, diffusivity: 0.1, specularity: 0.1,
                 texture: new Texture("assets/stars.png")
             }),
-            texture_2: new Material(new Texture_Scroll_X(), {
+            texture_2: new Material(new Texture_Rotate(), {
                 color: hex_color("#000000"),
                 ambient: .5, diffusivity: 0.1, specularity: 0.1,
                 texture: new Texture("assets/stars.png",)
@@ -95,9 +90,8 @@ class Texture_Scroll_X extends Textured_Phong {
             
             void main(){
                 // Sample the texture image in the correct place:
-                // vec2 f_tex_new = f_tex_coord;
-                // f_tex_new.x = f_tex_new.x - animation_time;
-                vec2 f_tex_new = f_tex_coord * 2.;
+                vec2 f_tex_new = f_tex_coord;
+                f_tex_new.x = f_tex_new.x + animation_time;
                 vec4 tex_color = texture2D( texture, f_tex_new);
             
                 if( tex_color.w < .01 ) discard;
@@ -119,7 +113,12 @@ class Texture_Rotate extends Textured_Phong {
             uniform float animation_time;
             void main(){
                 // Sample the texture image in the correct place:
-                vec4 tex_color = texture2D( texture, f_tex_coord );
+                vec2 f_tex_new = f_tex_coord;
+                float ang = animation_time;
+                mat2 rotate = mat2(cos(ang), -sin(ang), sin(ang), cos(ang));
+                f_tex_new = rotate * f_tex_new;
+                // f_tex_new = f_tex_new + 0.5;
+                vec4 tex_color = texture2D( texture, f_tex_new);
                 if( tex_color.w < .01 ) discard;
                                                                          // Compute an initial (ambient) color:
                 gl_FragColor = vec4( ( tex_color.xyz + shape_color.xyz ) * ambient, shape_color.w * tex_color.w ); 
