@@ -96,6 +96,8 @@ export class Assignment3 extends Scene {
         model_transform_p1 = model_transform_p1.times(Mat4.rotation(t, 0.,1.,0.));
         model_transform_p1 = model_transform_p1.times(Mat4.translation(5, 0, 0));
         model_transform_p1 = model_transform_p1.times(Mat4.rotation( - 2 * t, 0.,1.,0.));
+        shape1 (t * t1)
+        shape2 (t * t2)
         this.shapes.planet_1.draw(context, program_state, model_transform_p1, this.materials.test.override({color: red}));
         // model_transform_p1 = model_transform_p1.times(Mat4.scale(1.,1.,0.1));
         // this.shapes.sphere.draw(context, program_state, model_transform_p1, this.materials.ring);
